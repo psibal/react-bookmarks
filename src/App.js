@@ -167,7 +167,8 @@ function App() {
                 {
                   key: "category",
                   label: "Category",
-                  row: 4, col: 1,
+                  row: 3, 
+                  col: 2,
                   type: "select",
                   value: "Programming",
                   options: [
