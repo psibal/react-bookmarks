@@ -19,11 +19,17 @@ const books = {
     chapters:{
       1:{
         id: 1, book_id: 1, title: "Chapter 1", summary: "Summary of chapter 1",
-        body: "The chapter 1 goes here."
+        body: "The chapter 1 goes here.",
+        sections: {
+          1: {id: 1, title: "Section 1", body: "Section 1 goes here"},
+          2: {id: 2, title: "Section 2", body: "Section 2 goes here"},
+          3: {id: 3, title: "Section 3", body: "Section 3 goes here"},
+        }
       },
       2:{
         id: 2, book_id: 1, title: "Chapter 2", summary: "Summary of chapter 2",
-        body: "The chapter 2  goes here."
+        body: "The chapter 2  goes here.",
+        sections: {}
       }
     }
   },
@@ -73,7 +79,7 @@ function App() {
           </div>      
       </nav>
       <div className="content row">
-        <ul className="chapter-links col-md-3">
+        <ul className="chapter-links col-sm-3">
         {
             Object.keys(state).map(key => {
               let book = state[key];
@@ -103,15 +109,24 @@ function App() {
             })
           }
         </ul>
-        <div className="chapter col-md-9">
+        <div className="chapter col-sm-9">
             {
             book_chapter && (
               <div className="card" >
-                <img src="..." class="card-img-top" alt="Featured Image"/>
                 <div className="card-body">
                   <h5 className="card-title">{book_chapter.chapter.title}</h5>
                   <p className="card-text">{book_chapter.chapter.body}</p>
                   <a href="#" className="btn btn-primary">Go somewhere</a>
+                </div>
+                <div className="card-body">
+                  {
+                    Object.keys(book_chapter.chapter.sections).map(skey => {
+                      let section = book_chapter.chapter.sections[skey];
+                      return (
+                       <a className="section-link" href="#">{section.id}</a>
+                      )
+                    })
+                  }
                 </div>
               </div>
             )}
