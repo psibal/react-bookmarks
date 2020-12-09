@@ -14,29 +14,29 @@ import './App.css';
 //   { id: 10, title: "The Great Courses", url: "https://www.thegreatcoursesplus.com/"},
 // ]
 
-const books = [
-  { id: 1, title: "GeeksforGeeks", url: "https://www.geeksforgeeks.org/", 
-    chapters:[
-      {
+const books = {
+    1:{ id: 1, title: "GeeksforGeeks", url: "https://www.geeksforgeeks.org/", 
+    chapters:{
+      1:{
         id: 1, book_id: 1, title: "Chapter 1", summary: "Summary of chapter 1",
         body: "The chapter 1 goes here."
       },
-      {
+      2:{
         id: 2, book_id: 1, title: "Chapter 2", summary: "Summary of chapter 2",
         body: "The chapter 2  goes here."
       }
-    ]
+    }
   },
-  { id: 2, title: "Linux Academy", url: "https://www.linuxacademy.com/", chapters:[]},
-  { id: 3, title: "LogicMojo", url: "https://www.logicmojo.com/", chapters:[]},
-  { id: 4, title: "PacktPub", url: "https://packtpub.in", chapters:[]},
-  { id: 5, title: "Scrimba", url: "https://scrimba.com", chapters:[]},
-  { id: 6, title: "Skillshare", url: "https://skillshare.com", chapters:[]},
-  { id: 7, title: "Educative", url: "https://educative.io", chapters:[]},
-  { id: 8, title: "GreatCodeClub", url: "https://www.greatcodeclub.com", chapters:[]},
-  { id: 9, title: "21-Draw", url: "https://tv.21-draw.com/catalog", chapters:[]},
-  { id: 10, title: "The Great Courses", url: "https://www.thegreatcoursesplus.com/", chapters:[]},
-]
+  2:{ id: 2, title: "Linux Academy", url: "https://www.linuxacademy.com/", chapters:[]},
+  3:{ id: 3, title: "LogicMojo", url: "https://www.logicmojo.com/", chapters:[]},
+  4:{ id: 4, title: "PacktPub", url: "https://packtpub.in", chapters:[]},
+  5:{ id: 5, title: "Scrimba", url: "https://scrimba.com", chapters:[]},
+  6:{ id: 6, title: "Skillshare", url: "https://skillshare.com", chapters:[]},
+  7:{ id: 7, title: "Educative", url: "https://educative.io", chapters:[]},
+  8:{ id: 8, title: "GreatCodeClub", url: "https://www.greatcodeclub.com", chapters:[]},
+  9:{ id: 9, title: "21-Draw", url: "https://tv.21-draw.com/catalog", chapters:[]},
+  8:{ id: 10, title: "The Great Courses", url: "https://www.thegreatcoursesplus.com/", chapters:[]},
+}
 
 
 function App() {
@@ -75,7 +75,8 @@ function App() {
       <div className="book d-flex">
         <ul className="chapter-names">
         {
-            state.map(book => {
+            Object.keys(state).map(key => {
+              let book = state[key];
               return (
                 <li key={book.id} data-book="book" onClick={(e)=>toggleBook(e,book.id)}>
                   <span>
@@ -86,10 +87,11 @@ function App() {
                   </span>
                   {
                     bookMenu[book.id] && <ul>{
-                      book.chapters.map(c => {
+                      Object.keys(book.chapters).map(ckey => {
+                        let chapter = book.chapters[ckey];
                         return (
-                          <li onClick={((e) => showChapter(e, book.id, c.id ))}>
-                            {c.title}
+                          <li onClick={((e) => showChapter(e, book.id, chapter.id ))}>
+                            {chapter.title}
                           </li>
                         )
                       })
