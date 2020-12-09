@@ -3,7 +3,7 @@ import './App.css';
 import DynamicForm from './components/dynamic-form';
 
 
-const books = {
+const default_data = {
     1:{ id: 1, title: "GeeksforGeeks", url: "https://www.geeksforgeeks.org/", 
     chapters:{
       1:{
@@ -35,7 +35,7 @@ const books = {
 
 
 function App() {
-  const [state, setState] = React.useState(books);
+  const [books, setBooks] = React.useState(default_data);
   const [bookMenu, setBookMenu] = React.useState({});
   const [book_chapter, setBookChapter] = React.useState(undefined);
   const [section, setSection] = React.useState(undefined);
@@ -57,7 +57,7 @@ function App() {
     e.stopPropagation();
     setBookChapter({
       book_id,
-      chapter: state[book_id].chapters[chapter_id]
+      chapter: books[book_id].chapters[chapter_id]
     });
 
     setSection(undefined);
@@ -66,6 +66,19 @@ function App() {
   const onReadSection = (e, section) => {
     e.preventDefault();
     setSection(section);
+  }
+
+  // Work in progress
+  const onNewBook = (book) => {
+    //1:{ id: 1, title: "GeeksforGeeks", url: "https://www.geeksforgeeks.org/", 
+    setBooks({
+      ...books,
+      [books.length]: {
+        id: +new Date(),
+        title: book.title,
+        chapters: {},
+      }
+    })
   }
 
   return (
@@ -78,8 +91,8 @@ function App() {
       <div className="content row">
         <ul className="chapter-links col-sm-4">
         {
-            Object.keys(state).map(key => {
-              let book = state[key];
+            Object.keys(books).map(key => {
+              let book = books[key];
               return (
                 <li key={book.id} data-book="book" onClick={(e)=>toggleBook(e,book.id)}>
                   <span>
@@ -193,6 +206,7 @@ function App() {
               ]}
               onSubmit={model => {
                 alert(JSON.stringify(model));
+                onNewBook(model);
               }}
               />
         </div>
