@@ -15,6 +15,7 @@ ul {
 
 .chapter-links {
   cursor: pointer;
+  padding-left: 1rem;
 }
 
 .chapter-link {
