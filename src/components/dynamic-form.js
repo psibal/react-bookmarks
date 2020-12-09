@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useRef, useContext} from 'react';
 import _ from 'lodash';
+import axios from 'axios';
 
 import './dynamic-form.css';
 
@@ -11,6 +12,33 @@ function DynamicForm(props) {
   const [isDebug, setDebug] = useState(true);
 
   const submitText = props.submitText || "SUBMIT";
+
+  const [apiModel, setApiModel] = useState({});
+
+  // API calls
+  useEffect(() => {
+    const model = props.model;
+    console.log("MODEL: ", model);
+    async function api(url) {
+      const response = await axios(url);
+      console.log("API: ", response.data);
+      return response.data;      
+    }
+
+    Object.keys(model).map(async (m) => {
+      console.log("M: ", m);
+      if (model[m].server) {
+        const opts = await api(model[m].server.endpoint);
+        const trs = model[m].resolver(opts[model[m].server.dataKey]);
+        setApiModel(data => {
+          return {
+            ...data,
+            [model[m].key]: {options: trs}
+          }
+        })
+      }
+    })
+  }, []);
   
   const onSubmit = e => {
     e.preventDefault();
@@ -63,7 +91,7 @@ function DynamicForm(props) {
       let row = groupedByRow[k];
       console.log("ROW ITEM: ", row);
 
-      return <div className="form-row"> {Object.keys(row).map(item => {
+      return <div className="form-row" key={k}> {Object.keys(row).map(item => {
         let m = row[item];
 
         let key = m.key;
@@ -114,9 +142,11 @@ function DynamicForm(props) {
         }
 
         if (type == "select") {
-          input = m.options.map(o => {
+          // Get the model from api or if not their from props options
+          let options = apiModel[m.key] ? apiModel[m.key].options : (m.options || []);
+          console.log("SELECT: ", options, m.key, apiModel[m.key]);
+          input = options.map(o => {
             let checked = o.value == value;
-            
             return (
               <option
                 {...props}

@@ -83,9 +83,9 @@ function App() {
 
   return (
     <div>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-primary nav-fill w-100 d-flex align-items-stretch">
-       <div class="container-fluid">
-         <a class="navbar-brand" href="#">Bookmarkr</a>
+      <nav className="navbar navbar-expand-lg navbar-dark bg-primary nav-fill w-100 d-flex align-items-stretch">
+       <div className="container-fluid">
+         <a className="navbar-brand" href="#">Bookmarkr</a>
        </div>      
       </nav>
       <div className="content row">
@@ -96,8 +96,8 @@ function App() {
               return (
                 <li key={book.id} data-book="book" onClick={(e)=>toggleBook(e,book.id)}>
                   <span>
-                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+                    <svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-plus-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fillRule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
                     </svg>
                     &nbsp;{book.title}
                   </span>
@@ -185,11 +185,42 @@ function App() {
                   col: 2,
                   type: "select",
                   value: "Programming",
-                  options: [
+                  server: {
+                    endpoint: "https://output.jsbin.com/fewigil/latest.json",
+                    dataKey: "categories"
+                  },
+                  resolver: (data) => {
+                    console.log("Data Resolver: ", data);
+                    return data.map(d => {
+                      return {
+                        key: d, label: d, value: d
+                      }
+                    })
+                  },
+                  optionsxxx: [
                     { key: "programming", label: "Programming", value: "Programming" },
                     { key: "webdev", label: "Web development", value: "Web Development" },
                     { key: "devops", label: "DevOps", value: "DevOps" }
                   ]
+                },
+                {
+                  key: "tags",
+                  label: "Tags",
+                  row: 4, 
+                  col: 1,
+                  type: "select",
+                  server: {
+                    endpoint: "https://output.jsbin.com/hagusob/latest.json",
+                    dataKey: "tags"
+                  },
+                  resolver: (data) => {
+                    console.log("Data Resolver: ", data);
+                    return data.map(d => {
+                      return {
+                        key: d, label: d, value: d
+                      }
+                    })
+                  }
                 },
                 {
                   key: "authors",
