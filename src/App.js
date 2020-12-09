@@ -49,6 +49,7 @@ function App() {
   const [state, setState] = React.useState(books);
   const [bookMenu, setBookMenu] = React.useState({});
   const [book_chapter, setBookChapter] = React.useState(undefined);
+  const [section, setSection] = React.useState(undefined);
 
   const toggleBook = (e, book_id) => {
     e.stopPropagation();
@@ -68,15 +69,22 @@ function App() {
     setBookChapter({
       book_id,
       chapter: state[book_id].chapters[chapter_id]
-    })
+    });
+
+    setSection(undefined);
+  }
+
+  const onReadSection = (e, section) => {
+    e.preventDefault();
+    setSection(section);
   }
 
   return (
-    <div className="container-fluid">
-      <nav class="navbar navbar-expand-lg navbar-dark bg-primary full-w">
-         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Bookmarkr</a>
-          </div>      
+    <div>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-primary nav-fill w-100 d-flex align-items-stretch">
+       <div class="container-fluid">
+         <a class="navbar-brand" href="#">Bookmarkr</a>
+       </div>      
       </nav>
       <div className="content row">
         <ul className="chapter-links col-sm-3">
@@ -113,24 +121,30 @@ function App() {
             {
             book_chapter && (
               <div className="card" >
-                <div className="card-body">
-                  <h5 className="card-title">{book_chapter.chapter.title}</h5>
-                  <p className="card-text">{book_chapter.chapter.body}</p>
-                  <a href="#" className="btn btn-primary">Go somewhere</a>
-                </div>
-                <div className="card-body">
-                  {
+                <div className="card-footer">
+                  <div className="section-links">{
                     Object.keys(book_chapter.chapter.sections).map(skey => {
                       let section = book_chapter.chapter.sections[skey];
                       return (
-                       <a className="section-link" href="#">{section.id}</a>
+                       <a onClick={e => onReadSection(e,section)} className="section-link" href="#">{section.id}</a>
                       )
                     })
-                  }
+                  }</div>
                 </div>
+                <div className="card-body">
+                  <h5 className="card-title">{book_chapter.chapter.title}</h5>
+                  <p className="card-text">{book_chapter.chapter.body}</p>
+                </div>
+                
               </div>
             )}
+            { section && <div className="card">
+                  <div>{section.title}</div>
+                  <div>{section.body}</div>
+              </div>
+            } 
         </div>
+      
       </div>
     </div>
   );
