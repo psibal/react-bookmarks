@@ -9,6 +9,8 @@ function DynamicForm(props) {
   const [state, setState] = useState(props.defaultValues || {});
   
   const [isDebug, setDebug] = useState(true);
+
+  const submitText = props.submitText || "SUBMIT";
   
   const onSubmit = e => {
     e.preventDefault();
@@ -198,7 +200,7 @@ function DynamicForm(props) {
         >
         {renderForm()}
         <div className="form-actions">
-          <button type="submit">submit</button>
+          <button type="submit">{submitText}</button>
         </div>
       </form>
     </div>

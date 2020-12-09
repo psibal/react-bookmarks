@@ -135,6 +135,7 @@ function App() {
             <DynamicForm
               className="form"
               title="New Book"
+              submitText = "Submit"
               model={[
                 { key: "title", label: "Title", props: { required: true },row: 1, col: 1 },
                 { 

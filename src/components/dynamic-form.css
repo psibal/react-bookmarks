@@ -5,7 +5,6 @@
 
 .form {
   width:100%;
-  padding-left: 20px;
 }
 
 table {
@@ -28,10 +27,10 @@ table td {
 .dynamic-form {
     box-shadow: 2px 6px 8px grey;
     margin-bottom: 5px;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    padding: 10px;
     margin: 10px 2px;
     max-width: 600px;
+
 }
 .dynamic-form .form-group {
     padding: 0.2em 0.4em;
