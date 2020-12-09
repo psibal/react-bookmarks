@@ -1,18 +1,7 @@
 import React from 'react';
 import './App.css';
+import DynamicForm from './components/dynamic-form';
 
-// const data = [
-//   { id: 1, title: "GeeksforGeeks", url: "https://www.geeksforgeeks.org/"},
-//   { id: 2, title: "Linux Academy", url: "https://www.linuxacademy.com/"},
-//   { id: 3, title: "LogicMojo", url: "https://www.logicmojo.com/"},
-//   { id: 4, title: "PacktPub", url: "https://packtpub.in"},
-//   { id: 5, title: "Scrimba", url: "https://scrimba.com"},
-//   { id: 6, title: "Skillshare", url: "https://skillshare.com"},
-//   { id: 7, title: "Educative", url: "https://educative.io"},
-//   { id: 8, title: "GreatCodeClub", url: "https://www.greatcodeclub.com"},
-//   { id: 9, title: "21-Draw", url: "https://tv.21-draw.com/catalog"},
-//   { id: 10, title: "The Great Courses", url: "https://www.thegreatcoursesplus.com/"},
-// ]
 
 const books = {
     1:{ id: 1, title: "GeeksforGeeks", url: "https://www.geeksforgeeks.org/", 
@@ -87,7 +76,7 @@ function App() {
        </div>      
       </nav>
       <div className="content row">
-        <ul className="chapter-links col-sm-3">
+        <ul className="chapter-links col-sm-4">
         {
             Object.keys(state).map(key => {
               let book = state[key];
@@ -117,7 +106,7 @@ function App() {
             })
           }
         </ul>
-        <div className="chapter col-sm-9">
+        <div className="chapter col-sm-8">
             {
             book_chapter && (
               <div className="card" >
@@ -143,6 +132,67 @@ function App() {
                   <div>{section.body}</div>
               </div>
             } 
+            <DynamicForm
+              className="form"
+              title="New Book"
+              model={[
+                { key: "title", label: "Title", props: { required: true },row: 1, col: 1 },
+                { 
+                  key: "page", 
+                  label: "Pages", 
+                  type: "number", 
+                  row: 2, col: 1,
+                  width:1 
+                },
+                {
+                  key: "price",
+                  label: "Price",
+                  type: "number",
+                  props: { min: 0, max:150 },
+                  row: 2, 
+                  col: 2,
+                  width:1
+                },
+                {
+                  key: "published",
+                  label: "Published",
+                  row: 3, col: 1,
+                  type: "radio",
+                  options: [
+                    { key: "Yes", label: "Yes", name: "published", value: "1" },
+                    { key: "No", label: "No", name: "published", value: "0"
+                    }
+                  ]
+                },
+                {
+                  key: "category",
+                  label: "Category",
+                  row: 4, col: 1,
+                  type: "select",
+                  value: "Programming",
+                  options: [
+                    { key: "programming", label: "Programming", value: "Programming" },
+                    { key: "webdev", label: "Web development", value: "Web Development" },
+                    { key: "devops", label: "DevOps", value: "DevOps" }
+                  ]
+                },
+                {
+                  key: "authors",
+                  label: "Authors",
+                  type: "checkbox",
+                  row: 5, col: 1,
+                  options: [
+                    { key: "rajesh", label: "Rajesh", value: "1" },
+                    { key: "urvashi", label: "Urvashi", value: "2" },
+                    { key: "radhika", label: "Radhika", value: "3" },
+                    { key: "rajni", label: "Rajni", value: "4" }
+                  ]
+                }
+              ]}
+              onSubmit={model => {
+                alert(JSON.stringify(model));
+              }}
+              />
         </div>
       
       </div>
