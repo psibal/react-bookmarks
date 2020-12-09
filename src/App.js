@@ -42,7 +42,7 @@ const books = {
 function App() {
   const [state, setState] = React.useState(books);
   const [bookMenu, setBookMenu] = React.useState({});
-  const [currentChapter, setCurrentChapter] = React.useState({});
+  const [book_chapter, setBookChapter] = React.useState(undefined);
 
   const toggleBook = (e, book_id) => {
     e.stopPropagation();
@@ -59,9 +59,9 @@ function App() {
 
   const showChapter = (e, book_id, chapter_id) => {
     e.stopPropagation();
-    setCurrentChapter({
+    setBookChapter({
       book_id,
-      chapter_id
+      chapter: state[book_id].chapters[chapter_id]
     })
   }
 
@@ -72,8 +72,8 @@ function App() {
             <a class="navbar-brand" href="#">Bookmarkr</a>
           </div>      
       </nav>
-      <div className="book d-flex">
-        <ul className="chapter-names">
+      <div className="content row">
+        <ul className="chapter-links col-md-3">
         {
             Object.keys(state).map(key => {
               let book = state[key];
@@ -83,14 +83,14 @@ function App() {
                     <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
                     </svg>
-                    {book.title}
+                    &nbsp;{book.title}
                   </span>
                   {
                     bookMenu[book.id] && <ul>{
                       Object.keys(book.chapters).map(ckey => {
                         let chapter = book.chapters[ckey];
                         return (
-                          <li onClick={((e) => showChapter(e, book.id, chapter.id ))}>
+                          <li className="chapter-link" onClick={((e) => showChapter(e, book.id, chapter.id ))}>
                             {chapter.title}
                           </li>
                         )
@@ -103,11 +103,18 @@ function App() {
             })
           }
         </ul>
-        <div className="chapter">
-            {currentChapter && <div>
-              {currentChapter.chapter_id}
-            </div>  
-            }
+        <div className="chapter col-md-9">
+            {
+            book_chapter && (
+              <div className="card" >
+                <img src="..." class="card-img-top" alt="Featured Image"/>
+                <div className="card-body">
+                  <h5 className="card-title">{book_chapter.chapter.title}</h5>
+                  <p className="card-text">{book_chapter.chapter.body}</p>
+                  <a href="#" className="btn btn-primary">Go somewhere</a>
+                </div>
+              </div>
+            )}
         </div>
       </div>
     </div>
